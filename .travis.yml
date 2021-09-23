@@ -25,7 +25,7 @@ before_install:
   # build the test image
 
 script:
-    - docker run gowithkk/react-test npm test -- --coverage
+    - docker run -e CI=true gowithkk/react-test npm test -- --coverage
 
 deploy:
   provider: script
