@@ -21,7 +21,7 @@ before_install:
   - gcloud config set compute/zone asia-east1-c
   - gcloud container clusters get-credentials multi-k8s
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-  - docker build -t gowithkk/react-test -f ./client/Dockerfile.dev ./clinet
+  - docker build -t gowithkk/react-test -f ./client/Dockerfile.dev ./client
   # build the test image
 
 script:
