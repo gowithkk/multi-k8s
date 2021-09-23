@@ -2,6 +2,11 @@ sudo: required
 os: linux
 services:
   - docker
+env:
+  global:
+      - GIT_SHA=$(git rev-parse HEAD)
+      - CLOUDSDK_CORE_DISABLE_PROMPTS=1
+      # disable user input prompt
 before_install:
   - curl https://sdk.cloud.google.com | bash > /dev/null;
   - source $HOME/google-cloud-sdk/path.bash.inc
@@ -12,3 +17,17 @@ before_install:
   # retrieve encrpyted credentials from travis/git
   - gcloud auth activate-service-account --key-file service-account.json
   # activate auth with google cloud via service-account.json file
+  - gcloud container clusters get-credentials multi-k8s --zone asia-east1-c --project multi-k8s-326908
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - docker build -t gowithkk/react-test -f ./client/Dockerfile.dev ./clinet
+  # build the test image
+
+script:
+    - docker run gowithkk/react-test npm test -- --coverage
+
+deploy:
+  provider: script
+  # get travis to run the script on the master branch
+  script: bash ./deploy.sh
+  on:
+    branch: master
