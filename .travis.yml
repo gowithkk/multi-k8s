@@ -19,7 +19,7 @@ before_install:
   # activate auth with google cloud via service-account.json file
   - gcloud config set project multi-k8s-326908
   - gcloud config set compute/zone asia-east1-c
-  - gcloud container clusters get-credentials multi-cluster
+  - gcloud container clusters get-credentials multi-k8s
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker build -t gowithkk/react-test -f ./client/Dockerfile.dev ./clinet
   # build the test image
